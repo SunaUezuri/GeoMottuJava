@@ -1,5 +1,6 @@
 package br.com.geomottu.api.model.entities;
 
+import br.com.geomottu.api.dto.usuario.UsuarioDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,6 +38,13 @@ public class Usuario implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "id_filial")
     private Filial filial;
+
+    public Usuario(UsuarioDto json, Filial filial) {
+        this.nome = json.nome();
+        this.senha = json.senha();
+        this.tipoPerfil = json.tipoPerfil();
+        this.filial = filial;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,11 +1,19 @@
 package br.com.geomottu.api.model.entities;
 
+import br.com.geomottu.api.dto.moto.MotoDto;
 import br.com.geomottu.api.model.enums.EstadoMoto;
 import br.com.geomottu.api.model.enums.TipoMoto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "T_GEOMOTTU_MOTO")
+@Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @SequenceGenerator(name = "moto", sequenceName = "SQ_T_GEOMOTTU_MOTO", allocationSize = 1)
 public class Moto {
 
@@ -30,4 +38,12 @@ public class Moto {
     @ManyToOne
     @JoinColumn(name = "id_patio")
     private Patio patio;
+
+    public Moto(MotoDto dto, Patio patio) {
+        this.placa = dto.placa();
+        this.chassi = dto.chassi();
+        this.tipoMoto = dto.tipoMoto();
+        this.estadoMoto = dto.estadoMoto();
+        this.patio = patio;
+    }
 }

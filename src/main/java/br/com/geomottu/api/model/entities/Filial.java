@@ -1,5 +1,6 @@
 package br.com.geomottu.api.model.entities;
 
+import br.com.geomottu.api.dto.filial.FilialDto;
 import br.com.geomottu.api.model.enums.PaisesFilial;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -42,5 +43,15 @@ public class Filial {
 
     @OneToMany(mappedBy = "filial", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Patio> patios;
+
+    public Filial(FilialDto json) {
+        this.nome = json.nome();
+        this.pais = json.pais();
+        this.endereco = new Endereco(json.endereco());
+        this.telefone = json.telefone();
+        this.email = json.email();
+        this.usuarios = json.usuarios();
+        this.patios = json.patios();
+    }
 
 }

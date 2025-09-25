@@ -1,5 +1,6 @@
 package br.com.geomottu.api.model.entities;
 
+import br.com.geomottu.api.dto.patio.PatioDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,4 +34,11 @@ public class Patio {
 
     @OneToMany(mappedBy = "patio", fetch = FetchType.EAGER)
     private List<Moto> motos;
+
+    public Patio(PatioDto dto, Filial filial){
+        this.nome = dto.nome();
+        this.capacidadeTotal = dto.capacidadeTotal();
+        this.filial = filial;
+        this.motos = dto.motos();
+    }
 }
