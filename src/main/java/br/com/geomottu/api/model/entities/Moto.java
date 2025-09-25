@@ -5,8 +5,8 @@ import br.com.geomottu.api.model.enums.TipoMoto;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "TAB_GEOMOTTU_MOTO")
-@SequenceGenerator(name = "moto", sequenceName = "SQ_TAB_GEOMOTTU_MOTO", allocationSize = 1)
+@Table(name = "T_GEOMOTTU_MOTO")
+@SequenceGenerator(name = "moto", sequenceName = "SQ_T_GEOMOTTU_MOTO", allocationSize = 1)
 public class Moto {
 
     @Id @Column(name = "id_moto")

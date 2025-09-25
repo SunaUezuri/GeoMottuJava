@@ -13,8 +13,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "TAB_GEOMOTTU_USUARIO")
-@SequenceGenerator(name = "user", sequenceName = "SQ_TAB_GEOMOTTU_USUARIO", allocationSize = 1)
+@Table(name = "T_GEOMOTTU_USUARIO")
+@SequenceGenerator(name = "user", sequenceName = "SQ_T_GEOMOTTU_USUARIO", allocationSize = 1)
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor

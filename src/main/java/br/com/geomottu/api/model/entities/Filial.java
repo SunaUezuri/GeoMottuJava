@@ -10,11 +10,11 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "TAB_GEOMOTTU_FILIAL")
+@Table(name = "T_GEOMOTTU_FILIAL")
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SequenceGenerator(name = "filial", sequenceName = "SQ_TAB_GEOMOTTU_FILIAL", allocationSize = 1)
+@SequenceGenerator(name = "filial", sequenceName = "SQ_T_GEOMOTTU_FILIAL", allocationSize = 1)
 public class Filial {
 
     @Id @Column(name = "id_filial")

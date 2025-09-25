@@ -9,8 +9,8 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "TAB_GEOMOTTU_PATIO")
-@SequenceGenerator(name = "patio", sequenceName = "SQ_TAB_GEOMOTTU_PATIO", allocationSize = 1)
+@Table(name = "T_GEOMOTTU_PATIO")
+@SequenceGenerator(name = "patio", sequenceName = "SQ_T_GEOMOTTU_PATIO", allocationSize = 1)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
