@@ -35,10 +35,9 @@ public class Patio {
     @OneToMany(mappedBy = "patio", fetch = FetchType.EAGER)
     private List<Moto> motos;
 
-    public Patio(PatioDto dto, Filial filial){
+    public Patio(PatioDto dto){
         this.nome = dto.nome();
         this.capacidadeTotal = dto.capacidadeTotal();
-        this.filial = filial;
         this.motos = dto.motos();
     }
 }
