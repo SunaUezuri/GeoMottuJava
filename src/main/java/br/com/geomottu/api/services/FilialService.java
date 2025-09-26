@@ -34,17 +34,15 @@ public class FilialService {
                 .toList();
     }
 
-    public FilialGetDto getById(Long id) throws IdNaoEncontradoException {
+    public Filial getById(Long id) throws IdNaoEncontradoException {
         securityUtils.checkAdminAccess();
         return filialRepository.findById(id)
-                .map(FilialGetDto::new)
                 .orElseThrow(() -> new IdNaoEncontradoException("Filial não encontrada com ID: " + id));
     }
 
     public FilialGetDto update(Long id, FilialGetDto dto) throws IdNaoEncontradoException {
         securityUtils.checkAdminAccess();
-        Filial filial = filialRepository.findById(id)
-                .orElseThrow(() -> new IdNaoEncontradoException("Filial não encontrada com ID: " + id));
+        Filial filial = getById(id);
 
         filial.setNome(dto.nome());
         filial.setPais(dto.pais());
@@ -58,8 +56,8 @@ public class FilialService {
     }
 
     public void delete(Long id) throws IdNaoEncontradoException {
-        Filial filial = filialRepository.findById(id)
-                .orElseThrow(() -> new IdNaoEncontradoException("Filial não encontrada com ID: " + id));
+        securityUtils.checkAdminAccess();
+        Filial filial = getById(id);
 
         filialRepository.delete(filial);
     }

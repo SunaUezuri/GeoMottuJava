@@ -48,15 +48,13 @@ public class PatioService {
         }
     }
 
-    public PatioGetDto getById(Long id) throws IdNaoEncontradoException {
+    public Patio getById(Long id) throws IdNaoEncontradoException {
         Usuario usuarioLogado = securityUtils.getUsuarioLogado();
         if (securityUtils.isAdmin(usuarioLogado)) {
             return patioRepository.findById(id)
-                    .map(PatioGetDto::new)
                     .orElseThrow(() -> new IdNaoEncontradoException("Filial não encontrada com ID: " + id));
         } else {
             return patioRepository.findByIdAndFilial(id, usuarioLogado.getFilial())
-                    .map(PatioGetDto::new)
                     .orElseThrow(() -> new IdNaoEncontradoException("Filial não encontrada com ID: " + id));
         }
     }
@@ -64,8 +62,7 @@ public class PatioService {
     public PatioGetDto update(Long id, PatioGetDto dto) throws IdNaoEncontradoException {
         Usuario usuarioLogado = securityUtils.getUsuarioLogado();
 
-        Patio patio = patioRepository.findById(id)
-                .orElseThrow(() -> new IdNaoEncontradoException("Pátio não encontrado"));
+        Patio patio = getById(id);
 
         if (securityUtils.isAdmin(usuarioLogado)) {
             Filial filial = filialRepository.findById(dto.filialId())
@@ -86,8 +83,8 @@ public class PatioService {
     }
 
     public void delete(Long id) throws IdNaoEncontradoException {
-        Patio patioParaDeletar = patioRepository.findById(id)
-                .orElseThrow(() -> new IdNaoEncontradoException("Pátio não encontrado"));
-        patioRepository.deleteById(patioParaDeletar.getId());
+        securityUtils.checkAdminAccess();
+        Patio patioParaDeletar = getById(id);
+        patioRepository.delete(patioParaDeletar);
     }
 }
