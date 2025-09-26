@@ -37,33 +37,35 @@ public class UsuarioService {
         Filial filial = filialRepository.findById(dto.filialId())
                 .orElseThrow(IdNaoEncontradoException::new);
 
-        Usuario usuario = new Usuario(dto, filial);
-
+        Usuario usuario = new Usuario();
+        usuario.setNome(dto.nome());
+        usuario.setSenha(passwordEncoder.encode(dto.senha()));
         usuario.setTipoPerfil(2);
+        usuario.setFilial(filial);
+
 
         return usuarioRepository.save(usuario);
     }
 
-    public List<UsuarioGetDto> getAll() {
+    public List<Usuario> getAll() {
         securityUtils.checkAdminAccess();
-        return usuarioRepository.findAll().stream().map(UsuarioGetDto::new).toList();
+        return usuarioRepository.findAll();
     }
 
-    public UsuarioGetDto getById(Long id) throws IdNaoEncontradoException {
+    public Usuario getById(Long id) throws IdNaoEncontradoException {
         securityUtils.checkAdminOrOwnerAccess(id);
         return usuarioRepository.findById(id)
-                .map(UsuarioGetDto::new)
                 .orElseThrow(() -> new IdNaoEncontradoException("Usuário não encontrado com ID: " + id));
     }
 
-    public UsuarioGetDto getByName(String nome) {
+    public Usuario getByName(String nome) {
         Usuario usuario = usuarioRepository.findByNomeIgnoreCase(nome)
                 .orElseThrow(() -> new NoSuchElementException("Usuário não encontrado com nome: " + nome));
         securityUtils.checkAdminOrOwnerAccess(usuario.getId());
-        return new UsuarioGetDto(usuario);
+        return usuario;
     }
 
-    public UsuarioGetDto update(Long id, UsuarioDto dto) throws IdNaoEncontradoException {
+    public Usuario update(Long id, UsuarioDto dto) throws IdNaoEncontradoException {
         securityUtils.checkAdminOrOwnerAccess(id);
 
         Usuario usuarioLogado = securityUtils.getUsuarioLogado();
@@ -84,12 +86,10 @@ public class UsuarioService {
             }
         }
 
-        Usuario usuario = usuarioRepository.save(usuarioParaAtualizar);
-
-        return new UsuarioGetDto(usuario);
+        return usuarioRepository.save(usuarioParaAtualizar);
     }
 
-    public UsuarioGetDto updateRole(Long userId, UpdateRoleDto dto) throws IdNaoEncontradoException {
+    public Usuario updateRole(Long userId, UpdateRoleDto dto) throws IdNaoEncontradoException {
         securityUtils.checkAdminAccess();
         Usuario adminLogado = securityUtils.getUsuarioLogado();
 
@@ -104,9 +104,7 @@ public class UsuarioService {
                 .orElseThrow(() -> new IdNaoEncontradoException("Usuário não encontrado com ID: " + userId));
         usuarioParaAtualizar.setTipoPerfil(dto.tipoPerfil());
 
-        Usuario usuario = usuarioRepository.save(usuarioParaAtualizar);
-
-        return new UsuarioGetDto(usuario);
+        return usuarioRepository.save(usuarioParaAtualizar);
     }
 
     public void delete(Long id) throws IdNaoEncontradoException {

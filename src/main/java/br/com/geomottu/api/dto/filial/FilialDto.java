@@ -23,9 +23,7 @@ public record FilialDto(
         String telefone,
         @Email(message = "O formato de email está incorreto")
         @Size(max = 30, message = "O máximo de caracteres do email deve ser 30")
-        String email,
-        List<Usuario> usuarios,
-        List<Patio> patios
+        String email
 
 ) {
 }

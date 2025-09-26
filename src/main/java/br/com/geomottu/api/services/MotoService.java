@@ -41,12 +41,12 @@ public class MotoService {
         return motoRepository.save(moto);
     }
 
-    public List<MotoGetDto> getAll() {
+    public List<Moto> getAll() {
         Usuario usuarioLogado = securityUtils.getUsuarioLogado();
         if (securityUtils.isAdmin(usuarioLogado)) {
-            return motoRepository.findAll().stream().map(MotoGetDto::new).toList();
+            return motoRepository.findAll();
         } else {
-            return motoRepository.findAllByFilial(usuarioLogado.getFilial()).stream().map(MotoGetDto::new).toList();
+            return motoRepository.findAllByFilial(usuarioLogado.getFilial());
         }
     }
 
@@ -57,37 +57,33 @@ public class MotoService {
                     .orElseThrow(() -> new IdNaoEncontradoException("Moto não encontrada com ID: " + id));
         } else {
             return motoRepository.findByIdAndFilial(id, usuarioLogado.getFilial())
-                    .orElseThrow(() -> new NoSuchElementException("Moto não encontrada ou não pertence à sua filial. ID: " + id));
+                    .orElseThrow(() -> new IdNaoEncontradoException("Moto não encontrada ou não pertence à sua filial. ID: " + id));
         }
     }
 
-    public MotoGetDto getByPlaca(String placa) throws PlacaNaoEncontradaException {
+    public Moto getByPlaca(String placa) throws PlacaNaoEncontradaException {
         Usuario usuarioLogado = securityUtils.getUsuarioLogado();
         if (securityUtils.isAdmin(usuarioLogado)) {
             return motoRepository.findByPlacaIgnoreCase(placa)
-                    .map(MotoGetDto::new)
                     .orElseThrow(() -> new PlacaNaoEncontradaException("Moto não encontrada com placa: " + placa));
         } else {
             return motoRepository.findByPlacaIgnoreCaseAndFilial(placa, usuarioLogado.getFilial())
-                    .map(MotoGetDto::new)
-                    .orElseThrow(() -> new NoSuchElementException("Moto não encontrada ou não pertence à sua filial. Placa: " + placa));
+                    .orElseThrow(() -> new PlacaNaoEncontradaException("Moto não encontrada ou não pertence à sua filial. Placa: " + placa));
         }
     }
 
-    public MotoGetDto getByChassi(String chassi) {
+    public Moto getByChassi(String chassi) {
         Usuario usuarioLogado = securityUtils.getUsuarioLogado();
         if (securityUtils.isAdmin(usuarioLogado)) {
             return motoRepository.findByChassiIgnoreCase(chassi)
-                    .map(MotoGetDto::new)
                     .orElseThrow(() -> new NoSuchElementException("Moto não encontrada com chassi: " + chassi));
         } else {
             return motoRepository.findByChassiIgnoreCaseAndFilial(chassi, usuarioLogado.getFilial())
-                    .map(MotoGetDto::new)
                     .orElseThrow(() -> new NoSuchElementException("Moto não encontrada ou não pertence à sua filial. Chassi: " + chassi));
         }
     }
 
-    public MotoGetDto update(Long id, MotoDto dto) throws IdNaoEncontradoException {
+    public Moto update(Long id, MotoDto dto) throws IdNaoEncontradoException {
 
         Moto moto = getById(id);
 
@@ -107,9 +103,7 @@ public class MotoService {
         moto.setEstadoMoto(dto.estadoMoto());
         moto.setPatio(patio);
 
-        motoRepository.save(moto);
-
-        return new MotoGetDto(moto);
+        return motoRepository.save(moto);
     }
 
     public void delete(Long id) throws IdNaoEncontradoException {

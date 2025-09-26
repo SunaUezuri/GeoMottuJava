@@ -2,7 +2,6 @@ package br.com.geomottu.api.services;
 
 import br.com.geomottu.api.config.security.SecurityUtils;
 import br.com.geomottu.api.dto.patio.PatioDto;
-import br.com.geomottu.api.dto.patio.PatioGetDto;
 import br.com.geomottu.api.exceptions.IdNaoEncontradoException;
 import br.com.geomottu.api.model.entities.Filial;
 import br.com.geomottu.api.model.entities.Patio;
@@ -39,12 +38,12 @@ public class PatioService {
         return patioRepository.save(patio);
     }
 
-    public List<PatioGetDto> getAll() {
+    public List<Patio> getAll() {
         Usuario usuarioLogado = securityUtils.getUsuarioLogado();
         if (securityUtils.isAdmin(usuarioLogado)) {
-            return patioRepository.findAll().stream().map(PatioGetDto::new).toList();
+            return patioRepository.findAll();
         } else {
-            return patioRepository.findAllByFilial(usuarioLogado.getFilial()).stream().map(PatioGetDto::new).toList();
+            return patioRepository.findAllByFilial(usuarioLogado.getFilial());
         }
     }
 
@@ -52,14 +51,14 @@ public class PatioService {
         Usuario usuarioLogado = securityUtils.getUsuarioLogado();
         if (securityUtils.isAdmin(usuarioLogado)) {
             return patioRepository.findById(id)
-                    .orElseThrow(() -> new IdNaoEncontradoException("Filial não encontrada com ID: " + id));
+                    .orElseThrow(() -> new IdNaoEncontradoException("Pátio não encontrado com ID: " + id));
         } else {
             return patioRepository.findByIdAndFilial(id, usuarioLogado.getFilial())
-                    .orElseThrow(() -> new IdNaoEncontradoException("Filial não encontrada com ID: " + id));
+                    .orElseThrow(() -> new IdNaoEncontradoException("Pátio não encontrado ou não pertence à sua filial. ID: " + id));
         }
     }
 
-    public PatioGetDto update(Long id, PatioGetDto dto) throws IdNaoEncontradoException {
+    public Patio update(Long id, PatioDto dto) throws IdNaoEncontradoException {
         Usuario usuarioLogado = securityUtils.getUsuarioLogado();
 
         Patio patio = getById(id);
@@ -77,13 +76,10 @@ public class PatioService {
         patio.setNome(dto.nome());
         patio.setCapacidadeTotal(dto.capacidadeTotal());
 
-        Patio patioAtualizado = patioRepository.save(patio);
-
-        return new PatioGetDto(patioAtualizado);
+        return patioRepository.save(patio);
     }
 
     public void delete(Long id) throws IdNaoEncontradoException {
-        securityUtils.checkAdminAccess();
         Patio patioParaDeletar = getById(id);
         patioRepository.delete(patioParaDeletar);
     }

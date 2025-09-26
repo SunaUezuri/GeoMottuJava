@@ -50,8 +50,6 @@ public class Filial {
         this.endereco = new Endereco(json.endereco());
         this.telefone = json.telefone();
         this.email = json.email();
-        this.usuarios = json.usuarios();
-        this.patios = json.patios();
     }
 
 }

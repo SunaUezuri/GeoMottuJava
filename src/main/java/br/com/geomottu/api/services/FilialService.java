@@ -4,6 +4,7 @@ import br.com.geomottu.api.config.security.SecurityUtils;
 import br.com.geomottu.api.dto.filial.FilialDto;
 import br.com.geomottu.api.dto.filial.FilialGetDto;
 import br.com.geomottu.api.exceptions.IdNaoEncontradoException;
+import br.com.geomottu.api.model.entities.Endereco;
 import br.com.geomottu.api.model.entities.Filial;
 import br.com.geomottu.api.repository.FilialRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +27,9 @@ public class FilialService {
         return filialRepository.save(filial);
     }
 
-    public List<FilialGetDto> getAll() {
+    public List<Filial> getAll() {
         securityUtils.checkAdminAccess();
-        return filialRepository.findAll()
-                .stream()
-                .map(FilialGetDto::new)
-                .toList();
+        return filialRepository.findAll();
     }
 
     public Filial getById(Long id) throws IdNaoEncontradoException {
@@ -40,19 +38,17 @@ public class FilialService {
                 .orElseThrow(() -> new IdNaoEncontradoException("Filial não encontrada com ID: " + id));
     }
 
-    public FilialGetDto update(Long id, FilialGetDto dto) throws IdNaoEncontradoException {
+    public Filial update(Long id, FilialDto dto) throws IdNaoEncontradoException {
         securityUtils.checkAdminAccess();
         Filial filial = getById(id);
 
         filial.setNome(dto.nome());
         filial.setPais(dto.pais());
-        filial.setEndereco(dto.endereco());
+        filial.setEndereco(new Endereco(dto.endereco()));
         filial.setTelefone(dto.telefone());
         filial.setEmail(dto.email());
 
-        Filial atualizado = filialRepository.save(filial);
-
-        return new FilialGetDto(atualizado);
+        return filialRepository.save(filial);
     }
 
     public void delete(Long id) throws IdNaoEncontradoException {
