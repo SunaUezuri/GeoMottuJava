@@ -19,6 +19,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Collections;
+import java.util.List;
+
 @Controller
 @RequestMapping("/usuarios")
 @RequiredArgsConstructor
@@ -30,8 +33,24 @@ public class UsuarioController {
 
     // ADMIN: Lista todos os usuários
     @GetMapping
-    public String listAll(Model model) {
-        model.addAttribute("usuarios", usuarioService.getAll());
+    public String listAll(Model model, @RequestParam(name = "query", required = false) String query) {
+        List<Usuario> usuarios;
+
+        if (query != null && !query.isBlank()) {
+            try {
+                // Busca por nome e coloca o resultado único em uma lista
+                usuarios = List.of(usuarioService.getByName(query));
+            } catch (Exception e) {
+                // Se não encontrar, retorna uma lista vazia e uma mensagem de erro
+                usuarios = Collections.emptyList();
+                model.addAttribute("errorMessage", "Usuário '" + query + "' não encontrado.");
+            }
+        } else {
+            // Se não houver busca, lista todos os usuários
+            usuarios = usuarioService.getAll();
+        }
+
+        model.addAttribute("usuarios", usuarios);
         return "usuarios/lista";
     }
 

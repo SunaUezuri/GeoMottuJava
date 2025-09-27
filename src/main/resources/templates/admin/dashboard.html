@@ -63,31 +63,32 @@
 
     <script th:inline="javascript">
         /*<![CDATA[*/
-        // Pega os dados do modelo do Spring e os transforma em um objeto JavaScript
         const motosData = /*[[${motosPorEstado}]]*/ [];
 
-        // Prepara os dados para o formato que o Chart.js espera
-        const labels = motosData.map(item => item.ESTADO);
-        const data = motosData.map(item => item.TOTAL);
+        console.log("Dados recebidos do backend:", motosData);
 
-        // Configuração do gráfico
+        const labels = motosData.map(item => item.estado || item.ESTADO);
+        const data = motosData.map(item => item.total || item.TOTAL);
+
         const chartCtx = document.getElementById('motosPorEstadoChart').getContext('2d');
         const motosChart = new Chart(chartCtx, {
-            type: 'doughnut', // Tipo de gráfico: rosca (parecido com pizza)
+            type: 'doughnut',
             data: {
                 labels: labels,
                 datasets: [{
                     label: 'Quantidade de Motos',
                     data: data,
                     backgroundColor: [
-                        'rgba(157, 255, 0, 0.7)',  // Verde Mottu (LIVRE)
-                        'rgba(255, 193, 7, 0.7)',   // Amarelo (ALUGADA)
-                        'rgba(255, 99, 132, 0.7)'   // Vermelho (MANUTENCAO)
+                        'rgba(157, 255, 0, 0.7)',
+                        'rgba(255, 193, 7, 0.7)',
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)'
                     ],
                     borderColor: [
                         'rgba(157, 255, 0, 1)',
                         'rgba(255, 193, 7, 1)',
-                        'rgba(255, 99, 132, 1)'
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)'
                     ],
                     borderWidth: 1
                 }]
@@ -99,7 +100,7 @@
                     legend: {
                         position: 'top',
                         labels: {
-                            color: '#fff' // Cor do texto da legenda
+                            color: '#fff'
                         }
                     }
                 }
