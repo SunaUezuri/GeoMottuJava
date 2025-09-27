@@ -36,6 +36,7 @@
 6.  [Como Executar Localmente](#-como-executar-localmente)
 7.  [Credenciais de Acesso](#-credenciais-de-acesso)
 8. [Próximos Passos (Roadmap)](#-próximos-passos-roadmap)
+9. [Links](#links)
 
 ---
 
@@ -169,3 +170,7 @@ O projeto está pronto para ser expandido com novas funcionalidades:
 -   `[ ]` **Implementar Sistema de Recuperação de Senha com Token**
 
 ---
+
+## 🔗 Links
+
+[![Deploy Online](https://img.shields.io/badge/🌍%20Abrir%20Aplicação-000?style=for-the-badge&logo=vercel)](https://geomottujava.onrender.com)
