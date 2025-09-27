@@ -2,7 +2,7 @@
 <html lang="pt-br"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      th:replace="~{fragments/_layout :: layout(title='Página Inicial', content=~{::content})}">
+      th:replace="~{fragments/_layout :: layout(title='Página Inicial', content=~{::content}, pageScripts=~{})}">
 
 <th:block th:fragment="content">
     <main class="container flex-grow-1 my-5">
@@ -10,7 +10,6 @@
             <h1 class="display-4 fw-bold">Bem-vindo ao <span style="color: var(--mottu-green);">GeoMottu</span>!</h1>
             <p class="lead">Sua plataforma central para gerenciamento de frotas.</p>
         </div>
-
         <div class="row mt-5 g-4 justify-content-center">
             <div class="col-md-6 col-lg-4">
                 <div class="card-custom h-100">
@@ -22,7 +21,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-6 col-lg-4">
                 <div class="card-custom h-100">
                     <div class="card-body text-center d-flex flex-column">
@@ -33,7 +31,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-6 col-lg-4" sec:authorize="hasRole('ADMIN')">
                 <div class="card-custom h-100">
                     <div class="card-body text-center d-flex flex-column">
@@ -47,5 +44,4 @@
         </div>
     </main>
 </th:block>
-
 </html>

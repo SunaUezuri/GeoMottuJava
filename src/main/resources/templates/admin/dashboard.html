@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/_layout :: layout(title='Admin Dashboard', content=~{::content}, pageScripts=~{::pageScripts})}">
+
+<th:block th:fragment="content">
+    <main class="container my-5">
+        <h1 class="display-5 fw-bold mb-4">Dashboard Administrativo</h1>
+
+        <div class="row g-4 mb-5">
+            <div class="col-xl-4 col-md-6">
+                <div class="card-custom">
+                    <div class="card-body d-flex align-items-center">
+                        <i class="bi bi-people-fill display-3 me-4" style="color: var(--mottu-green)"></i>
+                        <div>
+                            <h2 class="card-title fw-bold" th:text="${totalUsuarios}">0</h2>
+                            <p class="card-text text-white-50 mb-0">Total de Usuários</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="card-custom">
+                    <div class="card-body d-flex align-items-center">
+                        <i class="bi bi-p-circle-fill display-3 me-4" style="color: var(--mottu-green)"></i>
+                        <div>
+                            <h2 class="card-title fw-bold" th:text="${totalPatios}">0</h2>
+                            <p class="card-text text-white-50 mb-0">Total de Pátios</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="card-custom">
+                    <div class="card-body d-flex align-items-center">
+                        <i class="bi bi-bicycle display-3 me-4" style="color: var(--mottu-green)"></i>
+                        <div>
+                            <h2 class="card-title fw-bold" th:text="${totalMotos}">0</h2>
+                            <p class="card-text text-white-50 mb-0">Total de Motos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card-custom">
+                    <div class="card-header">
+                        <h4 class="mb-0"><i class="bi bi-pie-chart-fill me-2"></i>Distribuição de Motos por Status</h4>
+                    </div>
+                    <div class="card-body" style="max-height: 400px; display: flex; justify-content: center; align-items: center;">
+                        <canvas id="motosPorEstadoChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</th:block>
+
+<th:block th:fragment="pageScripts">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // Pega os dados do modelo do Spring e os transforma em um objeto JavaScript
+        const motosData = /*[[${motosPorEstado}]]*/ [];
+
+        // Prepara os dados para o formato que o Chart.js espera
+        const labels = motosData.map(item => item.ESTADO);
+        const data = motosData.map(item => item.TOTAL);
+
+        // Configuração do gráfico
+        const chartCtx = document.getElementById('motosPorEstadoChart').getContext('2d');
+        const motosChart = new Chart(chartCtx, {
+            type: 'doughnut', // Tipo de gráfico: rosca (parecido com pizza)
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Quantidade de Motos',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(157, 255, 0, 0.7)',  // Verde Mottu (LIVRE)
+                        'rgba(255, 193, 7, 0.7)',   // Amarelo (ALUGADA)
+                        'rgba(255, 99, 132, 0.7)'   // Vermelho (MANUTENCAO)
+                    ],
+                    borderColor: [
+                        'rgba(157, 255, 0, 1)',
+                        'rgba(255, 193, 7, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#fff' // Cor do texto da legenda
+                        }
+                    }
+                }
+            }
+        });
+        /*]]>*/
+    </script>
+</th:block>
+
+</html>
