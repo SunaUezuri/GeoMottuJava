@@ -3,6 +3,7 @@ package br.com.geomottu.api.controllers;
 import br.com.geomottu.api.dto.moto.MotoDto;
 import br.com.geomottu.api.exceptions.IdNaoEncontradoException;
 import br.com.geomottu.api.model.entities.Moto;
+import br.com.geomottu.api.model.enums.EstadoMoto;
 import br.com.geomottu.api.services.MotoService;
 import br.com.geomottu.api.services.PatioService;
 import jakarta.validation.Valid;
@@ -13,6 +14,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Collections;
+import java.util.List;
+
 @Controller
 @RequestMapping("/motos")
 @RequiredArgsConstructor
@@ -22,8 +26,32 @@ public class MotoController {
     private final PatioService patioService;
 
     @GetMapping
-    public String listAll(Model model) {
-        model.addAttribute("motos", motoService.getAll());
+    public String listAll(Model model,
+                          @RequestParam(required = false) String tipoBusca,
+                          @RequestParam(required = false) String query) {
+
+        List<Moto> motos;
+        // Se o campo de busca foi preenchido
+        if (query != null && !query.isBlank()) {
+            try {
+                if ("PLACA".equals(tipoBusca)) {
+                    // Busca por placa e coloca o resultado único em uma lista
+                    motos = List.of(motoService.getByPlaca(query));
+                } else {
+                    // Busca por chassi e coloca o resultado único em uma lista
+                    motos = List.of(motoService.getByChassi(query));
+                }
+            } catch (Exception e) {
+                // Se a busca falhar (não encontrar), retorna uma lista vazia e uma mensagem de erro
+                motos = Collections.emptyList();
+                model.addAttribute("errorMessage", "Moto não encontrada: " + e.getMessage());
+            }
+        } else {
+            // Se não houver busca, lista todas as motos
+            motos = motoService.getAll();
+        }
+
+        model.addAttribute("motos", motos);
         return "motos/lista";
     }
 
@@ -49,6 +77,7 @@ public class MotoController {
             return "redirect:/motos";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Erro ao criar moto: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("motoDto", dto);
             return "redirect:/motos/nova";
         }
     }
@@ -88,6 +117,19 @@ public class MotoController {
             redirectAttributes.addFlashAttribute("errorMessage", "Erro ao atualizar moto: " + e.getMessage());
             return "redirect:/motos/" + id + "/editar";
         }
+    }
+
+    @PostMapping("/{id}/status")
+    public String updateMotoStatus(@PathVariable Long id,
+                                   @RequestParam("novoEstado") EstadoMoto novoEstado,
+                                   RedirectAttributes redirectAttributes) {
+        try {
+            motoService.updateStatus(id, novoEstado);
+            redirectAttributes.addFlashAttribute("successMessage", "Status da moto atualizado com sucesso!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao atualizar status: " + e.getMessage());
+        }
+        return "redirect:/motos";
     }
 
     @PostMapping("/{id}/deletar")

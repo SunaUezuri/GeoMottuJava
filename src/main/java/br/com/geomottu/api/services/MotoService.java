@@ -4,10 +4,12 @@ import br.com.geomottu.api.config.security.SecurityUtils;
 import br.com.geomottu.api.dto.moto.MotoDto;
 import br.com.geomottu.api.dto.moto.MotoGetDto;
 import br.com.geomottu.api.exceptions.IdNaoEncontradoException;
+import br.com.geomottu.api.exceptions.PatioLotadoException;
 import br.com.geomottu.api.exceptions.PlacaNaoEncontradaException;
 import br.com.geomottu.api.model.entities.Moto;
 import br.com.geomottu.api.model.entities.Patio;
 import br.com.geomottu.api.model.entities.Usuario;
+import br.com.geomottu.api.model.enums.EstadoMoto;
 import br.com.geomottu.api.repository.PatioRepository;
 import br.com.geomottu.api.repository.MotoRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +28,7 @@ public class MotoService {
     private final PatioRepository patioRepository;
     private final SecurityUtils securityUtils;
 
-    public Moto save(MotoDto dto) throws IdNaoEncontradoException {
+    public Moto save(MotoDto dto) throws IdNaoEncontradoException, PatioLotadoException {
         Usuario usuarioLogado = securityUtils.getUsuarioLogado();
         Patio patio = patioRepository.findById(dto.patioId())
                 .orElseThrow(() -> new IdNaoEncontradoException("Filial não encontrada com ID: " + dto.patioId()));
@@ -36,6 +38,8 @@ public class MotoService {
                 throw new AccessDeniedException("Acesso negado. Você só pode adicionar motos a pátios da sua filial.");
             }
         }
+
+        verificarCapacidadePatio(patio);
 
         Moto moto = new Moto(dto, patio);
 
@@ -84,12 +88,16 @@ public class MotoService {
         }
     }
 
-    public Moto update(Long id, MotoDto dto) throws IdNaoEncontradoException {
+    public Moto update(Long id, MotoDto dto) throws IdNaoEncontradoException, PatioLotadoException {
 
         Moto moto = getById(id);
 
         Patio patio = patioRepository.findById(dto.patioId())
                 .orElseThrow(() -> new NoSuchElementException("Pátio não encontrado com ID: " + dto.patioId()));
+
+        if (!moto.getPatio().getId().equals(patio.getId())) {
+            verificarCapacidadePatio(patio);
+        }
 
         Usuario usuarioLogado = securityUtils.getUsuarioLogado();
         if (!securityUtils.isAdmin(usuarioLogado)) {
@@ -121,5 +129,20 @@ public class MotoService {
         securityUtils.checkAdminAccess();
 
         return motoRepository.countMotosByEstado();
+    }
+
+    public Moto updateStatus(Long id, EstadoMoto novoEstado) throws IdNaoEncontradoException {
+        Moto moto = getById(id);
+
+        moto.setEstadoMoto(novoEstado);
+
+        return motoRepository.save(moto);
+    }
+
+    private void verificarCapacidadePatio(Patio patio) throws PatioLotadoException {
+        int numeroAtualDeMotos = patio.getMotos().size();
+        if (numeroAtualDeMotos >= patio.getCapacidadeTotal()) {
+            throw new PatioLotadoException("Operação falhou: O pátio '" + patio.getNome() + "' já atingiu sua capacidade máxima de " + patio.getCapacidadeTotal() + " motos.");
+        }
     }
 }

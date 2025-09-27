@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "T_GEOMOTTU_FILIAL")
@@ -50,6 +51,19 @@ public class Filial {
         this.endereco = new Endereco(json.endereco());
         this.telefone = json.telefone();
         this.email = json.email();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Filial filial = (Filial) o;
+        return Objects.equals(id, filial.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
 }
