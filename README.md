@@ -1,10 +1,13 @@
 # GeoMottu - Sistema de Gerenciamento de Frotas 🛵
 
-![Status: Concluído](https://img.shields.io/badge/status-concluído-green)
-![Java](https://img.shields.io/badge/Java-21-blue?logo=openjdk)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-green?logo=spring)
-![Oracle DB](https://img.shields.io/badge/Oracle-Database-red?logo=oracle)
-![Thymeleaf](https://img.shields.io/badge/Thymeleaf-Frontend-green?logo=thymeleaf)
+<div align="center">
+    ![Status: Concluído](https://img.shields.io/badge/status-concluído-green)
+    ![Java](https://img.shields.io/badge/Java-21-blue?logo=openjdk)
+    ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-green?logo=spring)
+    ![Oracle DB](https://img.shields.io/badge/Oracle-Database-red?logo=oracle)
+    ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-Frontend-green?logo=thymeleaf)
+</div>
+
 
 **GeoMottu** é uma aplicação web full-stack desenvolvida para simular um sistema de gerenciamento de frotas de motocicletas para a empresa Mottu, com foco em posteriormente adicionar o mapa para mostrar as motos.
 
@@ -30,12 +33,11 @@
 2.  [Funcionalidades Principais](#-funcionalidades-principais)
 3.  [Telas da Aplicação](#-telas-da-aplicação)
 4.  [Arquitetura do Sistema](#️-arquitetura-do-sistema)
-5.  [Modelo de Dados (Schema)](#-modelo-de-dados-schema)
-6.  [Detalhes de Segurança](#-detalhes-de-segurança)
-7.  [Tecnologias Utilizadas](#️-tecnologias-utilizadas)
-8.  [Como Executar Localmente](#-como-executar-localmente)
-9.  [Credenciais de Acesso](#-credenciais-de-acesso)
-10. [Próximos Passos (Roadmap)](#-próximos-passos-roadmap)
+5.  [Detalhes de Segurança](#-detalhes-de-segurança)
+6.  [Tecnologias Utilizadas](#️-tecnologias-utilizadas)
+7.  [Como Executar Localmente](#-como-executar-localmente)
+8.  [Credenciais de Acesso](#-credenciais-de-acesso)
+9. [Próximos Passos (Roadmap)](#-próximos-passos-roadmap)
 
 ---
 
