@@ -9,8 +9,10 @@ import br.com.geomottu.api.model.entities.Usuario;
 import br.com.geomottu.api.repository.FilialRepository;
 import br.com.geomottu.api.repository.PatioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -79,8 +81,17 @@ public class PatioService {
         return patioRepository.save(patio);
     }
 
+    @Transactional
     public void delete(Long id) throws IdNaoEncontradoException {
         Patio patioParaDeletar = getById(id);
+
+        if (!patioParaDeletar.getMotos().isEmpty()) {
+            throw new DataIntegrityViolationException("Não é possível deletar o pátio '" + patioParaDeletar.getNome() + "' pois ele não está vazio.");
+        }
+        Filial filial = patioParaDeletar.getFilial();
+        if (filial != null) {
+            filial.getPatios().remove(patioParaDeletar);
+        }
         patioRepository.delete(patioParaDeletar);
     }
 
