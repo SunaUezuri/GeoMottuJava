@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface MotoRepository extends JpaRepository<Moto, Long> {
@@ -25,4 +26,7 @@ public interface MotoRepository extends JpaRepository<Moto, Long> {
 
     @Query("SELECT m FROM Moto m WHERE upper(m.chassi) = upper(:chassi) AND m.patio.filial = :filial")
     Optional<Moto> findByChassiIgnoreCaseAndFilial(@Param("chassi") String chassi, @Param("filial") Filial filial);
+
+    @Query("SELECT m.estadoMoto as estado, COUNT(m) as total FROM Moto m GROUP BY m.estadoMoto")
+    List<Map<String, Object>> countMotosByEstado();
 }

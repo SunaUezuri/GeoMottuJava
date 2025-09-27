@@ -15,6 +15,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Service
@@ -111,4 +112,14 @@ public class MotoService {
         motoRepository.delete(motoParaDeletar);
     }
 
+    public long countTotal() {
+        securityUtils.checkAdminAccess();
+        return motoRepository.count();
+    }
+
+    public List<Map<String, Object>> countByEstado() {
+        securityUtils.checkAdminAccess();
+
+        return motoRepository.countMotosByEstado();
+    }
 }

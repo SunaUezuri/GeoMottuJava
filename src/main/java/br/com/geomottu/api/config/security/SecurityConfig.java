@@ -18,7 +18,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(a -> a
                         // Permite acesso público à página de login e recursos estáticos
-                        .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/login", "/registrar", "/acesso-negado", "/css/**", "/js/**", "/images/**").permitAll()
                         // Apenas ADMIN pode acessar as páginas de filiais
                         .requestMatchers("/filiais/**", "/admin/**").hasRole("ADMIN")
 

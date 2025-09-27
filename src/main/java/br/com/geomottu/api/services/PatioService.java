@@ -83,4 +83,10 @@ public class PatioService {
         Patio patioParaDeletar = getById(id);
         patioRepository.delete(patioParaDeletar);
     }
+
+    public long countTotal() {
+        securityUtils.checkAdminAccess();
+
+        return patioRepository.count();
+    }
 }

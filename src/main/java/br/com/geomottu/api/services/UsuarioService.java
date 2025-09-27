@@ -115,4 +115,10 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    public long countTotal() {
+        securityUtils.checkAdminAccess();
+
+        return usuarioRepository.count();
+    }
+
 }

@@ -38,6 +38,5 @@ public class Patio {
     public Patio(PatioDto dto){
         this.nome = dto.nome();
         this.capacidadeTotal = dto.capacidadeTotal();
-        this.motos = dto.motos();
     }
 }
