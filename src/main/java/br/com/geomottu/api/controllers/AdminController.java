@@ -22,11 +22,13 @@ public class AdminController {
     @GetMapping("/dashboard")
     public String showDashboard(Model model, RedirectAttributes redirectAttributes) {
         try {
-            // Chama os métodos de agregação que criamos nos serviços
+
             model.addAttribute("totalUsuarios", usuarioService.countTotal());
             model.addAttribute("totalPatios", patioService.countTotal());
             model.addAttribute("totalMotos", motoService.countTotal());
             model.addAttribute("motosPorEstado", motoService.countByEstado());
+            model.addAttribute("motosPorModelo", motoService.countByModelo());
+            model.addAttribute("patiosOcupacao", patioService.getOcupacaoPatios());
 
             // Retorna o caminho para o template do dashboard
             return "admin/dashboard";

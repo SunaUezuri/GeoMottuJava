@@ -131,6 +131,11 @@ public class MotoService {
         return motoRepository.countMotosByEstado();
     }
 
+    public List<Map<String, Object>> countByModelo() {
+        securityUtils.checkAdminAccess();
+        return motoRepository.countMotosByModelo();
+    }
+
     public Moto updateStatus(Long id, EstadoMoto novoEstado) throws IdNaoEncontradoException {
         Moto moto = getById(id);
 

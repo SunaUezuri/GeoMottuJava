@@ -29,4 +29,7 @@ public interface MotoRepository extends JpaRepository<Moto, Long> {
 
     @Query("SELECT m.estadoMoto as estado, COUNT(m) as total FROM Moto m GROUP BY m.estadoMoto")
     List<Map<String, Object>> countMotosByEstado();
+
+    @Query("SELECT m.tipoMoto as modelo, COUNT(m) as total FROM Moto m GROUP BY m.tipoMoto")
+    List<Map<String, Object>> countMotosByModelo();
 }

@@ -2,6 +2,7 @@ package br.com.geomottu.api.services;
 
 import br.com.geomottu.api.config.security.SecurityUtils;
 import br.com.geomottu.api.dto.patio.PatioDto;
+import br.com.geomottu.api.dto.patio.PatioOcupacaoDto;
 import br.com.geomottu.api.exceptions.IdNaoEncontradoException;
 import br.com.geomottu.api.model.entities.Filial;
 import br.com.geomottu.api.model.entities.Patio;
@@ -10,11 +11,14 @@ import br.com.geomottu.api.repository.FilialRepository;
 import br.com.geomottu.api.repository.PatioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -99,5 +103,10 @@ public class PatioService {
         securityUtils.checkAdminAccess();
 
         return patioRepository.count();
+    }
+
+    public List<PatioOcupacaoDto> getOcupacaoPatios() {
+        securityUtils.checkAdminAccess();
+        return patioRepository.findPatiosByOcupacao(PageRequest.of(0, 5));
     }
 }
