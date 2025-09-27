@@ -73,16 +73,21 @@ public class UsuarioService {
                 .orElseThrow(() -> new IdNaoEncontradoException("Usuário não encontrado com ID: " + id));
 
         usuarioParaAtualizar.setNome(dto.nome());
-        usuarioParaAtualizar.setSenha(passwordEncoder.encode(dto.senha()));
 
+        // Atualiza a senha APENAS se uma nova senha for fornecida
+        if (dto.senha() != null && !dto.senha().isBlank()) {
+            usuarioParaAtualizar.setSenha(passwordEncoder.encode(dto.senha()));
+        }
+
+        // Apenas ADMINS podem alterar filial e tipo de perfil
         if (securityUtils.isAdmin(usuarioLogado)) {
             Filial filial = filialRepository.findById(dto.filialId())
-                    .orElseThrow(() -> new IdNaoEncontradoException("Filial não encontrada com ID: " + id));
-            usuarioParaAtualizar.setTipoPerfil(dto.tipoPerfil());
+                    .orElseThrow(() -> new IdNaoEncontradoException("Filial não encontrada com ID: " + dto.filialId()));
             usuarioParaAtualizar.setFilial(filial);
-        } else {
-            if (!usuarioParaAtualizar.getFilial().getId().equals(dto.filialId()) || !usuarioParaAtualizar.getTipoPerfil().equals(dto.tipoPerfil())) {
-                throw new AccessDeniedException("Usuários não podem alterar a própria filial ou perfil.");
+
+            // Impede que um admin mude o próprio perfil nesta tela
+            if (!usuarioLogado.getId().equals(id)) {
+                usuarioParaAtualizar.setTipoPerfil(dto.tipoPerfil());
             }
         }
 

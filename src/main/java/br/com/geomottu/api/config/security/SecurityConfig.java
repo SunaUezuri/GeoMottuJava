@@ -41,6 +41,8 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .permitAll())
+                .exceptionHandling(e -> e
+                        .accessDeniedPage("/acesso-negado"))
                 .build();
     }
 
