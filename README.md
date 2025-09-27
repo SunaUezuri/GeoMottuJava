@@ -169,7 +169,3 @@ O projeto está pronto para ser expandido com novas funcionalidades:
 -   `[ ]` **Implementar Sistema de Recuperação de Senha com Token**
 
 ---
-
-## 🏗️ Arquitetura do Sistema
-
-A aplicação segue uma arquitetura em camadas (Layered Architecture), padrão em projetos Spring, para garantir a separação de responsabilidades e a manutenibilidade do código.
