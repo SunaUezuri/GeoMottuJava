@@ -2,7 +2,6 @@ package br.com.geomottu.api.model.entities;
 
 import br.com.geomottu.api.dto.usuario.UsuarioDto;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,7 +15,7 @@ public class UsuarioTest {
     private Usuario usuario;
 
     @BeforeEach
-    public void setUp() {
+    public void setup() {
         usuario = new Usuario();
     }
 

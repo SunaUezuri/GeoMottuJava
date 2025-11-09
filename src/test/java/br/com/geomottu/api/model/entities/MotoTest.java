@@ -12,7 +12,7 @@ public class MotoTest {
     private Moto moto;
 
     @BeforeEach
-    public void setUp() {
+    public void setup() {
         moto = new Moto();
     }
 
@@ -57,8 +57,6 @@ public class MotoTest {
 
     @Test
     public void deveInstanciarCorretamenteAPartirDeUmMotoDtoEPatio() {
-        // ARRANGE
-        // Cria os objetos de entrada (DTO e Patio)
         Patio patio = new Patio();
         MotoDto dto = new MotoDto(
                 "DTO987",

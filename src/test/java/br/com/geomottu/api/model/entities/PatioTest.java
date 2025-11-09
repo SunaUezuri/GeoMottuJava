@@ -1,26 +1,19 @@
 package br.com.geomottu.api.model.entities;
 
-// Importações do JUnit 5
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-// Importação do DTO necessário para o teste
 import br.com.geomottu.api.dto.patio.PatioDto;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Classe de testes para a entidade Patio.
- * Foca na validação dos construtores (padrão, todos os argumentos e DTO)
- * e na atribuição e recuperação de dados (Getters/Setters).
- */
 public class PatioTest {
 
     private Patio patio;
 
     @BeforeEach
-    public void setUp() {
+    public void setup() {
         patio = new Patio();
     }
 
