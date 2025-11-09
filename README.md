@@ -1,14 +1,14 @@
 # GeoMottu - Sistema de Gerenciamento de Frotas 🛵
 
 ![Status: Concluído](https://img.shields.io/badge/status-concluído-green)
-![Java](https://img.shields.io/badge/Java-21-blue?logo=openjdk)
+![Java](https://img.shields.io/badge/Java-17-blue?logo=openjdk)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-green?logo=spring)
 ![Oracle DB](https://img.shields.io/badge/Oracle-Database-red?logo=oracle)
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-Frontend-green?logo=thymeleaf)
 
 O **GeoMottu** é uma aplicação web completa (full-stack) desenvolvida para simular um sistema robusto de gerenciamento de frotas de motocicletas. Seu principal objetivo é atender às necessidades da empresa Mottu, oferecendo uma plataforma centralizada para o controle logístico e operacional de sua frota. 
 
-A aplicação é construída em `Java 21` utilizando o framework `Spring Boot 3`, com uma interface de usuário renderizada no servidor via `Thymeleaf`. Para persistência de dados, emprega Spring Data JPA e `Azure SQL Database`, com migrações de schema gerenciadas por `Flyway`. A segurança é um pilar central, implementada com `Spring Security` para autenticação e autorização baseadas em perfis (ADMIN e USER). 
+A aplicação é construída em `Java 17` utilizando o framework `Spring Boot 3`, com uma interface de usuário renderizada no servidor via `Thymeleaf`. Para persistência de dados, emprega Spring Data JPA e `Azure SQL Database`, com migrações de schema gerenciadas por `Flyway`. A segurança é um pilar central, implementada com `Spring Security` para autenticação e autorização baseadas em perfis (ADMIN e USER). 
 
 ---
 
