@@ -48,9 +48,10 @@ A aplicação é construída em `Java 21` utilizando o framework `Spring Boot 3`
 4.  [Detalhes de Segurança](#-detalhes-de-segurança)
 5.  [Tecnologias Utilizadas](#️-tecnologias-utilizadas)
 6.  [Como Executar Localmente](#-como-executar-localmente)
-7.  [Credenciais de Acesso](#-credenciais-de-acesso)
-8. [Próximos Passos (Roadmap)](#-próximos-passos-roadmap)
-9. [Links](#links)
+7.  [Como Rodar os Testes](#-como-rodar-os-testes)
+8.  [Credenciais de Acesso](#-credenciais-de-acesso)
+9. [Próximos Passos (Roadmap)](#-próximos-passos-roadmap)
+10. [Links](#links)
 
 ---
 
@@ -133,6 +134,10 @@ A segurança é um pilar central da aplicação, implementada com Spring Securit
 * **JavaScript (ES6)**
 * **Chart.js**
 
+#### **Testes**
+* **JUnit 5**
+* **Mockito**
+
 #### **Banco de Dados & Ferramentas**
 * **Oracle Database**
 * **Flyway** (Versionamento de Banco de Dados)
@@ -163,6 +168,18 @@ A segurança é um pilar central da aplicação, implementada com Spring Securit
     ```
 4.  **Acesse:** A aplicação estará disponível em `http://localhost:8080`.
 
+---
+## Como Rodar os Testes
+
+1. **Entre na pasta do projeto**
+    ```bash
+        cd GeoMottuJava
+    ```
+2. **Abra um terminal de sua escolha**
+3. **Execute o comando de testes**
+    ```bash
+        mvn test
+    ```
 ---
 
 ## 🔑 Credenciais de Acesso
